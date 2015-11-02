@@ -8,4 +8,5 @@
 	define("FW_BASE_URL", "");
 	define("FW_CONFIGS", false);
 
+	define("LAST_RENDERED_FILE_TIME", NULL);
 ?>

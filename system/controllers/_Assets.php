@@ -2,6 +2,9 @@
 	/*
 	 * Assets Class, handles all request for files, javascripts and css stuff, fonts and other crazy things
 	*/
+	//For minifying
+	use MatthiasMullie\Minify;
+	
 
 	Class Assets{
 		function __construct(){
@@ -53,39 +56,173 @@
 			//Scan header and footer for tags
 			foreach($layout_files as $l){
 				$file = file_get_contents("application/layout/" . $layout . "/" . $l);
-				preg_match_all("<!-- injection:s*([^nr]*) -->", $file, $matches);
-				$components[$matches[1][0]] = [];
+				preg_match_all("<!-- inject:s*([^nr]*) -->", $file, $matches);
+				foreach($matches[1] as $match){
+					$components[$match] = [];
+				}
 			}
 
 			//Scan assets/bower_components
-			$dir = "application/assets/bower_components";
-			$files = scandir($dir);
-			foreach($files as $file){
-				if(substr($file, 0, 1) != '.'){
-					if(strpos($file, '.') === false){
-						//It's a component!
-						//Check for the main source files
-						$json = json_decode(file_get_contents($dir . "/" . $file . "/bower.json"));
-						if(is_string($json->main)){
-							//Loop over possible injections
-							foreach($components as $key => &$array){
-								if(strpos($json->main, $key) !== false){
-									$array[] = $dir . "/" . $file . "/" . $json->main;
-								}
-							}
-						}else{
-							foreach($json->main as $main_file){
-								//Loop over possible injections
-								foreach($components as $key => &$array){
-									if(strpos($main_file, $key) !== false){
-										$array[] = $dir . "/" . $file . "/" . $main_file;
+			foreach($components as $file_type => $res){
+				$this->getAllFiles("application", $file_type, $components[$file_type]);
+			}
+			
+			switch (STAGE) {
+				case 'dev':
+				default:
+					//Insert the real files into the header/footer
+					//Delete the previous compiled scripts
+					foreach($components as $file_type => $res){
+						foreach($res as $key => $r){
+							switch($file_type){
+								case "js":
+									if(strrpos($r, "_scripts.min.js") !== false){
+										unset($components[$file_type][$key]);
 									}
-								}
+									break;
+								case "css":
+									if(strrpos($r, "_styles.min.css") !== false){
+										unset($components[$file_type][$key]);
+									}
+									break;
+								default:
+									break;
 							}
 						}
 					}
-				}
+					break;
+				case "test":
+				case "deploy":
+					//Insert the minified version into the header/footer
+					foreach($components as $file_type => $results){
+						switch ($file_type) {
+							case 'js':
+								//Loop over scripts and remove the minified ones already
+								$temp = [];
+								foreach($results as $key => $r){
+									if(strpos($r, ".min.") !== false || strpos($r, ".php") !== false){
+										$temp[] = $r;
+										unset($results[$key]);
+									}
+								}
+								//Loop over last-updated date of the files. If any of them is updated later then the date, compile a new version
+								//Loop over last-updated date of the files. If any of them is updated later then the date, compile a new version
+								$recompile = false; $lastRenderedFileTime = LAST_RENDERED_FILE_TIME;
+								foreach($results as $r){
+									if(filemtime($r) > $lastRenderedFileTime){
+										$recompile = true;
+										$lastRenderedFileTime = filemtime($r);
+									}
+								}
+								
+								if(count($results) > 0 && $recompile == true){
+									//Update LAST_RENDERED_FILE_TIME
+									if(LAST_RENDERED_FILE_TIME == null){
+										$str_time = "NULL";
+									}else{
+										$str_time = LAST_RENDERED_FILE_TIME;
+									}
+									$d = new Document('./system/initialize', '_all_config.inc.php');
+									$d->replace('define("LAST_RENDERED_FILE_TIME", ' . $str_time . ');', 'define("LAST_RENDERED_FILE_TIME", ' . $lastRenderedFileTime . ');');
+									
+									//Actual minifying
+									$initiate = true;
+									foreach($results as $r){
+										if($initiate){
+											$minifier = new Minify\JS('./' . $r);
+											$initiate = false;
+										}else{
+											$minifier->add('./' . $r);
+										}
+									}
+									//Uglify the js
+									$myPacker = new JavaScriptPacker($minifier->minify());
+									$packed = $myPacker->pack();
+									
+									//Write to file
+									$d = new Document("./application/assets/js/minified", $lastRenderedFileTime . "_scripts.min.js");
+									$d->write($packed);
+
+									//Update components with the newly minified script
+									$test = true;
+									foreach($temp as $key => $t){
+										if($t == 'application/assets/js/minified/' . $lastRenderedFileTime . "_scripts.min.js"){
+											$test = false;
+										}elseif(strrpos($t, "_scripts.min.js") !== false){
+											//Delete this script, it is not the same render
+											unset($temp[$key]);
+											unlink($t);
+										}
+									}
+									if($test){
+										$temp[] = 'application/assets/js/minified/' . $lastRenderedFileTime . "_scripts.min.js";
+									}
+								}
+								$components["js"] = $temp;
+								break;
+							case 'css':
+							default:
+								$temp = [];
+								foreach($results as $key => $r){
+									if(strpos($r, ".min.") !== false || strpos($r, ".php") !== false){
+										$temp[] = $r;
+										unset($results[$key]);
+									}
+								}
+								//Loop over last-updated date of the files. If any of them is updated later then the date, compile a new version
+								$recompile = false; $lastRenderedFileTime = LAST_RENDERED_FILE_TIME;
+								foreach($results as $r){
+									if(filemtime($r) > $lastRenderedFileTime){
+										$recompile = true;
+										$lastRenderedFileTime = filemtime($r);
+									}
+								}
+								if(count($results) > 0 && $recompile){
+									//Update LAST_RENDERED_FILE_TIME
+									if(LAST_RENDERED_FILE_TIME == null){
+										$str_time = "NULL";
+									}else{
+										$str_time = LAST_RENDERED_FILE_TIME;
+									}
+									$d = new Document('./system/initialize', '_all_config.inc.php');
+									$d->replace('define("LAST_RENDERED_FILE_TIME", ' . $str_time . ');', 'define("LAST_RENDERED_FILE_TIME", ' . $lastRenderedFileTime . ');');
+								
+									//Actual minifying
+									$initiate = true;
+									foreach($results as $r){
+										if($initiate){
+											$minifier = new Minify\CSS('./' . $r);
+											$initiate = false;
+										}else{
+											$minifier->add('./' . $r);
+										}
+									}
+									//Write to file
+									$d = new Document("./application/assets/css/minified",  $lastRenderedFileTime . "_styles.min.css");
+									$d->write($minifier->minify());
+
+									//Update components with the newly minified stylesheet
+									$test = true;
+									foreach($temp as $key => $t){
+										if($t == 'application/assets/css/minified/' . $lastRenderedFileTime . "_styles.min.css"){
+											$test = false;
+										}elseif(strrpos($t, "_styles.min.css") !== false){
+											//Delete this styles, it is not the same render
+											unset($temp[$key]);
+											unlink($t);
+										}
+									}
+									if($test){
+										$temp[] = 'application/assets/css/minified/' . $lastRenderedFileTime . "_styles.min.css";
+									}
+								}
+								$components["css"] = $temp;
+								break;
+						}
+					}
+					break;
 			}
+
 			//Inject js into layout-files
 			foreach($layout_files as $l_file){
 				$doc = new Document("application/layout/" . $layout, $l_file);
@@ -94,7 +231,7 @@
 					foreach($assets as $asset){
 						$string .= str_replace("@url@", $asset, $asset_urls[$key]) . "\n";
 					}
-					$doc->pregreplace("<!-- injection:" . $key . " -->", "<!-- endInjection:" . $key . " -->", $string);
+					$doc->pregreplace("<!-- inject:" . $key . " -->", "<!-- end:" . $key . " -->", $string);
 				}
 				$doc->__destruct();
 			}
@@ -114,6 +251,20 @@
 						}else{
 							return FW_BASE_URL . $dir . $file;
 						}
+					}
+				}
+			}
+			return false;
+		}
+
+		private function getAllFiles($dir, $ext, &$results){
+			$files = scandir($dir);
+			foreach($files as $file){
+				if(substr($file, 0, 1) != '.'){
+					if(strpos($file, '.') === false){
+						$this->getAllFiles($dir . "/" . $file, $ext, $results);
+					}elseif((strrpos($file, "." . $ext) !== false) || (strrpos($file, "." . $ext . ".php") !== false)){
+						$results[] = $dir . "/" . $file;
 					}
 				}
 			}

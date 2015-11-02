@@ -35,13 +35,7 @@
 	<link rel="icon" href="<? echo $this->assets->get('images', 'favicon'); ?>">
 
 	<!--Basic stylesheets-->
-	<link href="<? echo $this->assets->get('css', 'uikit'); ?>" rel="stylesheet">
-	<link href="<? echo $this->assets->get('css', 'ionicons'); ?>" rel="stylesheet">
-	<link href="<? echo $this->assets->get('css', 'theme'); ?>" rel="stylesheet">
-
-	<!--Basic javascripts-->
-	<script type="text/javascript" src="<? echo $this->assets->get('js', 'jquery.min'); ?>"></script>
-	<script type="text/javascript" src="<? echo $this->assets->get('js', 'uikit.min'); ?>"></script>
+	<!-- inject:css --><!-- end:css -->
 </head>
 <body>
 <div class="uk-container uk-container-center">

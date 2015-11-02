@@ -12,6 +12,8 @@
 
 		public function layout($layout){
 			$this->layout = $layout;
+			$c = new Controller();
+			$c->assets->render($this->layout);
 		}
 
 		public function view($viewPath, $variables = array()){	
@@ -25,10 +27,6 @@
 					$$variableName = $variableValue;
 				}
 			}
-
-			//get the url for breadcrumbs
-			Load::helper('_url');
-			$url = getUrl();
 
 			if(is_dir("application/layout/" . $this->layout)){
 				include("application/layout/" . $this->layout . "/header.php");
