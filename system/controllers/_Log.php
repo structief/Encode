@@ -3,13 +3,13 @@
 
 	Class Log{
 		public function add($string){
-			$d = new Document(__DIR__ . '/../../application/logs', date("d_m_Y") . ".php", true);
+			$d = new Document(__DIR__ . '/../../application/logs', date("d_m_Y") . ".log.php", true);
 			$d->append("(" . date("H:i:s") . ") " . $string . "
 ");
 		}
 
 		public function _error($string){
-			$d = new Document(__DIR__ . '/../logs', date("d_m_Y") . ".php", true);
+			$d = new Document(__DIR__ . '/../logs', date("d_m_Y") . ".log.php", true);
 			$d->append("(" . date("H:i:s") . ") " . $string . "
 ");
 		}
