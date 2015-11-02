@@ -5,7 +5,7 @@
 	*/
 	define("FW_TITLE", "Encode");
 	define("FW_VERSION", 2.4);
-	define("BASE_URL", "");
+	define("FW_BASE_URL", "");
 	define("FW_CONFIGS", false);
 
 ?>

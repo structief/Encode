@@ -24,6 +24,9 @@
 
 		public function getPostVariable($var = null){
 			$post = json_decode(file_get_contents('php://input'), true);
+			if($post == NULL){
+				$post = $_POST;
+			}
 			if($var == null){
 				return $post;
 			}elseif(array_key_exists($var, $post)){
@@ -59,6 +62,9 @@
 
 		public function isPost(){
 			$post = json_decode(file_get_contents('php://input'), true);
+			if($post == NULL){
+				$post = $_POST;
+			}
 			if(isset($post) && count($post)>0){
 				return true;
 			}else{

@@ -12,10 +12,10 @@
 			$calling_class_location = $this->_get_calling_class_path();$original = $name;
 
 			if(strpos($map, "_") === 0){
-				$location = "system";
+				$this->location = "system";
 				$map = substr($map, 1);
 			}else{
-				$location = "application";
+				$this->location = "application";
 			}
 			if(strpos($calling_class_location, "modules")){
 				//Module call
@@ -29,8 +29,8 @@
 				}
 				$original_path = $this->scan_dir_for_file($location . '/modules/' . $module . '/assets/' . $map . '/', $original);
 			}else{
-				$path = $this->scan_dir_for_file($location . '/assets/' . $map . '/', $name);
-				$original_path = $this->scan_dir_for_file($location . '/assets/' . $map . '/', $original);
+				$path = $this->scan_dir_for_file($this->location . '/assets/' . $map . '/', $name);
+				$original_path = $this->scan_dir_for_file($this->location . '/assets/' . $map . '/', $original);
 			}
 
 			if($this->_isCacheable(["map"=>$map, "name"=>$name, "calling_class_location"=>$calling_class_location])){
@@ -109,7 +109,11 @@
 							return $return;
 						}
 					}elseif(substr($file, 0, strrpos($file, '.')) == $name){
-						return BASE_URL . $dir . $file;
+						if($this->location == "application"){
+							return BASE_URL . $dir . $file;
+						}else{
+							return FW_BASE_URL . $dir . $file;
+						}
 					}
 				}
 			}

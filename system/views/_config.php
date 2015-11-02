@@ -94,7 +94,7 @@
 	<div class="uk-width-1-1">
 		<h2>Great!<small> all your settings were saved succesfully!</h2>
 		<p>
-			The best thing you can do now is going to your current <a href="<? echo BASE_URL; ?>">landing page</a>, which is controlled here: <code>application/controllers/<? echo LANDING_CONTROLLER; ?></code>.<br/><br/>
+			The best thing you can do now is going to your current <a href="/Index">landing page</a>, which is controlled here: <code>application/controllers/<? echo LANDING_CONTROLLER; ?></code>.<br/><br/>
 			You can always change this controller in your settings (<code>application/config/all_config.inc.php</code>)
 		</p><br/><hr>
 	</div>
