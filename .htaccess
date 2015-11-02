@@ -1,0 +1,9 @@
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} (css|js)
+RewriteRule ^(.*)$ index.php?get=$1&file [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !(css|js)
+RewriteRule ^(.*)$ index.php?get=$1&code=$2$3 [L]
