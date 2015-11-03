@@ -50,12 +50,12 @@ When a user accesses your webpage, the following steps occur:
    * If the method requires parameters, they are located after the methods name, between '/':
 `www.yourdomain.com/Controller/Method/parameter_one/parameter_two/.../parameter_thousand`
    * In this method, some Model may be called, to deal with parameters, grab some variables and make a connection with a database if needed.
-   * After every variables is determined, the controller will load a view, which contains only HTML and some basic logics, like if or switch cases. The view-call can be given some variables as well, so you can access them in the view itself, and echo them wherever you want.
+   * When all the data is collected, the controller will load a view, which contains plain HTML (and some basic logic-statements, like if or switch cases). The view-call can be loaded with some variables as well, so you can access them in the view itself, and output them wherever you want.
 
-En plus, in Encode, everything is stored in a session-container, so all of your settings, variables in models and controllers remain saved, and ready for use throughout the entire session!
+*En plus*, in Encode all base-classes are stored in a session-container, so all of your settings are saved, and ready for use throughout the entire session!
 
 #### MODULES USAGE
-Since version `2.3`, it is possible to write custom, reusable modules, inside Encode.
+Since version `2.3`, it is possible to write custom, reusable modules to expand Encode.
 The structure of these modules are very much like the basic application-folder. They both have assets, controllers, models, views, config files, and others.
 If you are going to write or edit modules, best have a look at these guidelines:
 
@@ -69,6 +69,6 @@ If you are going to write or edit modules, best have a look at these guidelines:
 We would very much like to hear your thoughts about the system, so if you made some improvements on the framework, just send a PR! (If you found a bug, leave an issue ;) )
 
 #### Done
-So, that's about it. If you have any troubles/problems/questions with the controller-usage, visit the [Manual](http://www.ebro.me/Encode/Manual) or the [FAQ](http://www.ebro.me/Encode/FAQ).
+So, that's about it. If you have any trouble/problems/questions with the controller-usage, visit the [Manual](http://www.ebro.me/Encode/Manual) or the [FAQ](http://www.ebro.me/Encode/FAQ).
 Have fun!
 
