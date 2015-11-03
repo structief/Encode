@@ -34,16 +34,6 @@
 			$_SESSION['_storage'] = serialize($session_storage);
 		}
 
-		function __get($key){
-			if(is_array($this->storage) && array_key_exists($key, $this->storage)){
-				return $this->storage[$key];
-			}else{	
-				$obj = new $key();
-				$this->storage[$key] = $obj;
-				return $this->storage[$key];
-			}
-		}
-
 		function index(){
 	    	$this->error->trigger(404, "Page does not exist");
 		}
