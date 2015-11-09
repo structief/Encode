@@ -45,6 +45,7 @@ When a user accesses your webpage, the following steps occur:
 
 1. The Controller is called, based on the url:
 `www.yourdomain.com/Controller`
+   * This controller is placed within `application/Controllers`. If you want, you can suffix your controllername with '_Controller', to make sure you see the difference.
 2. In the Controller, the correct method is located:
 `www.yourdomain.com/Controller/Method`
    * If the method requires parameters, they are located after the methods name, between '/':
