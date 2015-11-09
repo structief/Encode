@@ -51,7 +51,6 @@
 				$stripped_class = substr($class, strrpos($class, "\\")+1);
 				if($file == $stripped_class){
 				    require_once $filename;
-				    return true;
 				}
 			}
 		}
@@ -64,7 +63,6 @@
 				$stripped_class = substr($class, strrpos($class, "\\")+1);
 				if($file == $stripped_class){
 				    require_once $path;
-				    return true;
 				}
 			}
 		}
