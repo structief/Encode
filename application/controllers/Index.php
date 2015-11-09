@@ -8,12 +8,18 @@
 			//Load a layout
 			$this->load->layout("myLayout");
 			
+			//This outputs "Encode Framework" since it is called from namespace Internal\View
+			$title = \Internal\View\Example::renderTitle();
+			//This outputs "Welcome to Encode", since it is called from namespace Internal\Extra
+			$welcomeMessage = \Internal\Extra\Example::renderWelcomeMessage();
+
+			//This outputs "But" since it is called from namespace Model, (it is stored in the folder "models")
+			$model = new \Model\Example();
+			$butMessage = $model->things();
+
+
 			//Output the view
-			$this->load->view('index');
-			echo "Internal: View: ";
-			\Internal\View\Example::things();
-			echo "<br/>Internal: Extra:";
-			\Internal\Extra\Example::things();
+			$this->load->view('index', ["title" => $title, "welcomeMessage" => $welcomeMessage, "butMessage" => $butMessage]);
 		}
 	}
 ?>

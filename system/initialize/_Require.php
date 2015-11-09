@@ -13,8 +13,8 @@
 	set_include_path(get_include_path() . PATH_SEPARATOR . '.');
 
 	//Require all System classes, controllers and config files
-	$GLOBALS["userFolders"] = array(locateFiles('application/controllers','php'), locateFiles('system/api', 'php'));
-	$systemFolders = array(locateFiles('system/initialize','php'), locateFiles('system/controllers','php'), locateFiles('application/config','php'));
+	$GLOBALS["userFolders"] = array(locateFiles('application/controllers','php'), locateFiles('application/models','php'), locateFiles('application/helpers','php'), locateFiles('system/api', 'php'));
+	$systemFolders = array(locateFiles('system/initialize','php'), locateFiles('system/controllers','php'), locateFiles('system/helpers','php'), locateFiles('application/config','php'));
 	
 	//Systemclasses, controllers, configfiles
 	foreach ($systemFolders as $systemFolder){
@@ -41,7 +41,7 @@
 	//Autoload classes that have not been defined yet
 	spl_autoload_register(function ($class) {
 		//Require all classes
-		//Loop through user controllers / modules to find the right file
+		//Loop through user controllers / models / modules to find the right file
 		$trigger = false;
 		foreach($GLOBALS["userFolders"] as $folder){
 			foreach($folder as $filename){

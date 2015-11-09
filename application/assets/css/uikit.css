@@ -480,9 +480,13 @@ h5,
 h6 {
   margin: 0 0 15px 0;
   font-family: "Helvetica",Verdana,Arial,sans-serif;
+  text-transform: none;
+}
+h1,
+h2,
+h3 {
   font-weight: bold;
   color: #da314b;
-  text-transform: none;
 }
 /*
  * Don't worry about the universal selector.
@@ -1400,6 +1404,12 @@ iframe {
  ========================================================================== */
 .uk-comment-header {
   margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  background: #fafafa;
+  color: #999;
+  margin-top:30px;
 }
 /*
  * Micro clearfix
@@ -1417,6 +1427,7 @@ iframe {
 .uk-comment-avatar {
   margin-right: 15px;
   float: left;
+  opacity: 0.5;
 }
 /* Sub-object `uk-comment-title`
  ========================================================================== */
@@ -1424,6 +1435,7 @@ iframe {
   margin: 5px 0 0 0;
   font-size: 16px;
   line-height: 22px;
+  font-weight: 400;
 }
 /* Sub-object `uk-comment-meta`
  ========================================================================== */
@@ -1761,8 +1773,10 @@ html:not(.uk-touch) .uk-nav-offcanvas ul a:hover {
    Component: Navbar
  ========================================================================== */
 .uk-navbar {
-  background: #ffffff;
   color: #444444;
+  border-bottom: 1px solid #e5e5e5;
+  background: #fafafa;
+  margin-bottom: 10px;
 }
 /*
  * Micro clearfix
@@ -1812,7 +1826,7 @@ html:not(.uk-touch) .uk-nav-offcanvas ul a:hover {
 }
 /* Appear not as link */
 .uk-navbar-nav > li > a[href='#'] {
-  cursor: text;
+  cursor: pointer;
 }
 /*
  * Hover
@@ -1863,6 +1877,9 @@ html:not(.uk-touch) .uk-nav-offcanvas ul a:hover {
   height: 40px;
   padding: 0 15px;
   float: left;
+}
+.uk-navbar-brand{
+  width: 10%;
 }
 /*
  * Helper to center all child elements vertically
@@ -1958,6 +1975,13 @@ html:not(.uk-touch) .uk-nav-offcanvas ul a:hover {
  ========================================================================== */
 .uk-navbar-flip {
   float: right;
+}
+.uk-navbar-flip i{
+  vertical-align: middle;
+  display: inline-block;
+  line-height: 40px;
+  color: #666;
+  margin-right: 15px;
 }
 /* ========================================================================
    Component: Subnav
@@ -2058,6 +2082,12 @@ html:not(.uk-touch) .uk-nav-offcanvas ul a:hover {
   list-style: none;
   /* 2 */
   letter-spacing: -0.31em;
+}
+#breadcrumb-holder{
+  background: #eee;
+  padding: 5px 10px;
+  box-sizing: content-box;
+  width: 100%;
 }
 /* Items
  ========================================================================== */

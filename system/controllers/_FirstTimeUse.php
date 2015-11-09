@@ -21,7 +21,6 @@
 
 				if($this->input->isPost()){
 					//Validate form
-					$this->load->helper("_config");
 
 					$errors = isValid($this->input->getPostVariable());
 					if(count($errors) == 0){

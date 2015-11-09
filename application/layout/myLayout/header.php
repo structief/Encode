@@ -35,26 +35,44 @@
 	<link rel="icon" href="<? echo $this->assets->get('images', 'favicon'); ?>">
 
 	<!--Basic stylesheets-->
-	<!-- inject:css --><!-- end:css -->
+	<!-- inject:css --> <link rel='stylesheet' href='/application/assets/css/ionicons.css'>
+<link rel='stylesheet' href='/application/assets/css/uikit.css'>
+ <!-- end:css -->
 </head>
 <body>
+<nav class="uk-navbar">
+    <a href="" class="uk-navbar-brand">
+    	<img src="<? echo $this->assets->get('images/icons', 'favicon'); ?>" style="height:auto;max-height: 80%;width:auto" class="uk-animation-fade" />
+    </a>
+    <ul class="uk-navbar-nav">
+    	<li>
+    		<a class="active" href="/Index">
+    			<?= $title; ?>
+    		</a>
+    	</li>
+    	<li>
+    		<a href="http://www.ebro.me/Encode/Intro" target="_BLANK">
+    			Getting started
+    		</a>
+    	</li>
+    	<li>
+    		<a href="http://www.ebro.me/Encode/Manual" target="_BLANK">
+    			Documentation
+    		</a>
+    	</li>
+    	<li>
+    		<a href="http://www.ebro.me/Encode/FAQ" target="_BLANK">
+    			FAQ
+    		</a>
+    	</li>
+    	<li>
+    		<a href="https://github.com/kliptonize/Encode" target="_BLANK">
+    			Repository
+    		</a>
+    	</li>
+    </ul>
+    <div class="uk-navbar-flip">
+        <i><?php echo date("F j, Y"); ?></i>
+    </div>
+</nav>
 <div class="uk-container uk-container-center">
-	<div class="uk-grid" id="header-grid">
-		<div class="uk-width-1-1" id="breadcrumb-holder">
-			<span class="uk-text-muted date"><? echo date("F j, Y"); ?></span>
-			<ul class="uk-breadcrumb uk-hidden-small uk-text-muted">
-			    <li><a href="<? echo BASE_URL; ?>">Home</a></li>
-			    <? $i=1;foreach ($url as $name => $value) { if($name != "Home"){?>
-			    <li>
-			    <? if($i == count($url)){ ?>
-			    <span><? echo ucfirst($name); ?></span>
-			    <? }else{ ?>
-			    <a href="<? echo $value; ?>"><? echo ucfirst($name); ?></a></li>
-			    <? }$i++;}} ?>
-			</ul>
-		</div>
-		<div class="uk-width-1-1" id="logo">
-			<span><img src="<? echo $this->assets->get('images', 'EncodeLogo'); ?>" style="width:10%;height:auto" class="uk-animation-fade" /></span>
-			<h2 id="baseline">Encode Framework</h2>
-		</div>
-	</div>

@@ -1,23 +1,17 @@
-<div class="uk-grid" style="margin-bottom: 10px">
-  <div class="uk-width-large-1-3 uk-width-medium-1-2 uk-width-1-1">
-    <p class="uk-text-muted">
-      Copyright Code Hunters - 2014
-    </p>
-  </div>
-  <div class="uk-width-large-1-3 uk-hidden-small">
-    &nbsp;
-  </div>
-  <div class="uk-width-large-1-3 uk-width-medium-1-2 uk-width-1-1">
-    <p class="uk-text-muted uk-hidden-small" style="text-align:right">
-      Created by a <a href="">Code Hunter</a>
-    </p>
-    <p class="uk-text-muted uk-visible-small">
-      Created by a <a href="">Code Hunter</a>
-    </p>
-  </div>
+  <div class="uk-width-1-1">
+    <article class="uk-comment">
+        <header class="uk-comment-header">
+            <img class="uk-comment-avatar" src="<?= $this->assets->get('images/icons', 'favicon'); ?>" alt="Encode Framework" width="50" height="50">
+            <h4 class="uk-comment-title">Made by a <a href="http://www.koen.coff.ie" target="_BLANK">Code Hunter</a></h4>
+            <div class="uk-comment-meta">Copyright Code Hunters - 2015</div>
+        </header>
+    </article>
   </div>
 </div>
-</div>
-  <!-- inject:js --><!-- end:js -->
+  <!-- inject:js --> <script type='text/javascript' src='/application/assets/js/jquery.min.js'></script>
+<script type='text/javascript' src='/application/assets/js/script.js'></script>
+<script type='text/javascript' src='/application/assets/js/script2.js'></script>
+<script type='text/javascript' src='/application/assets/js/uikit.min.js'></script>
+ <!-- end:js -->
 </body>
 </html>

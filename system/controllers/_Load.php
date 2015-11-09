@@ -18,8 +18,6 @@
 		}
 
 		public function view($viewPath, $variables = array()){	
-			$this->helper("_language");
-
 			//Set variables
 			foreach($variables as $variableName => $variableValue){
 				if(is_array($variableValue)){
@@ -85,55 +83,28 @@
 			if(is_array($helperPath)){
 				foreach($helperPath as $helper){
 					if(substr($helper, 0, 1) == "_"){
-						include_once('system/helpers/' . $helper . '_helper.php');
+						include_once('system/helpers/' . $helper . '.php');
 					}elseif(strpos($calling_class_location, "modules")){
 						//Determine the module
 						$module = substr($calling_class_location, strpos($calling_class_location, "modules/")+strlen('modules/'));
 						$module = substr($module, 0, strpos($module, '/'));
 						
-						include_once('application/modules/' . $module . '/helpers/' . $helper . '_helper.php');
+						include_once('application/modules/' . $module . '/helpers/' . $helper . '.php');
 					}else{
-						include_once('application/helpers/' . $helper . '_helper.php');
+						include_once('application/helpers/' . $helper . '.php');
 					}
 				}
 			}else{
 				if(substr($helperPath, 0, 1) == "_"){
-					include_once('system/helpers/' . $helperPath . '_helper.php');
+					include_once('system/helpers/' . $helperPath . '.php');
 				}elseif(strpos($calling_class_location, "modules")){
 					//Determine the module
 					$module = substr($calling_class_location, strpos($calling_class_location, "modules/")+strlen('modules/'));
 					$module = substr($module, 0, strpos($module, '/'));
 					
-					include_once('application/modules/' . $module . '/helpers/' . $helper . '_helper.php');
+					include_once('application/modules/' . $module . '/helpers/' . $helper . '.php');
 				}else{
-					include_once('application/helpers/' . $helperPath . '_helper.php');
-				}
-			}
-		}
-
-		public function model($models){
-			$calling_class_location = $this->_get_calling_class_path();
-			if(is_array($models)){
-				foreach($models as $model){
-					if(strpos($calling_class_location, "modules")){
-						//Determine the module
-						$module = substr($calling_class_location, strpos($calling_class_location, "modules/")+strlen('modules/'));
-						$module = substr($module, 0, strpos($module, '/'));
-						
-						include('application/modules/' . $module . '/models/' . ucfirst($model) . "_model.php");
-					}else{
-						require_once("application/models/" . ucfirst($model) . "_model.php");
-					}
-				}
-			}else{
-				if(strpos($calling_class_location, "modules")){
-					//Determine the module
-					$module = substr($calling_class_location, strpos($calling_class_location, "modules/")+strlen('modules/'));
-					$module = substr($module, 0, strpos($module, '/'));
-					
-					include('application/modules/' . $module . '/models/' . ucfirst($models) . "_model.php");
-				}else{
-					require_once("application/models/" . ucfirst($models) . "_model.php");
+					include_once('application/helpers/' . $helperPath . '.php');
 				}
 			}
 		}
