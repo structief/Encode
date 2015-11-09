@@ -4,6 +4,7 @@
 	*/
 	//For minifying
 	use MatthiasMullie\Minify;
+	use Encode\Controller as Controller;
 	
 
 	Class Assets{

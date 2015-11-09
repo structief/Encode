@@ -48,7 +48,8 @@
 				$file = substr($filename, strrpos($filename, "/")+1);
 				//Check if filename maps with controller-name
 				$file = substr($file, 0, strrpos($file, ".php"));
-				if($file == str_replace("_Controller", "", $class)){
+				$stripped_class = substr($class, strrpos($class, "\\")+1);
+				if($file == $stripped_class){
 				    require_once $filename;
 				    return true;
 				}
@@ -60,7 +61,8 @@
 				//Check filename for controller name and require_once it
 				$file = substr($path, strrpos($path, "/"));
 				//Check if filename maps with controller-name
-				if($file == str_replace("_Controller", "", $class)){
+				$stripped_class = substr($class, strrpos($class, "\\")+1);
+				if($file == $stripped_class){
 				    require_once $path;
 				    return true;
 				}

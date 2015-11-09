@@ -4,7 +4,7 @@ Encode is *quite easy* to use, but we'd love to tell you about some stuff before
 If you are an experienced coder, you'll be through this in a second.
 If not, sit down, grab a beer/coffee and read quickly through this part of the docs.
 
-Just..one..rule: Every Encode-file is precessed with an underscore
+Just..one..rule: Every Encode-file is prefixed with an underscore
 ```php
 '_Require.php', '_Model.php', ...
 ```
@@ -45,15 +45,13 @@ When a user accesses your webpage, the following steps occur:
 
 1. The Controller is called, based on the url:
 `www.yourdomain.com/Controller`
-   * This controller is placed within `application/Controllers`. If you want, you can suffix your controllername with '_Controller', to make sure you see the difference.
+   * This controller is placed within `application/Controllers`. Use the correct namespace "Controller" and extend your controller from `\Encode\Controller` to make full use of Encode. Also, name your file after your controller (without the namespace) for lazyloading.
 2. In the Controller, the correct method is located:
 `www.yourdomain.com/Controller/Method`
    * If the method requires parameters, they are located after the methods name, between '/':
 `www.yourdomain.com/Controller/Method/parameter_one/parameter_two/.../parameter_thousand`
    * In this method, some Model may be called, to deal with parameters, grab some variables and make a connection with a database if needed.
    * When all the data is collected, the controller will load a view, which contains plain HTML (and some basic logic-statements, like if or switch cases). The view-call can be loaded with some variables as well, so you can access them in the view itself, and output them wherever you want.
-
-*En plus*, in Encode all base-classes are stored in a session-container, so all of your settings are saved, and ready for use throughout the entire session!
 
 #### MODULES USAGE
 Since version `2.3`, it is possible to write custom, reusable modules to expand Encode.

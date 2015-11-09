@@ -2,6 +2,7 @@
 	/*
 	//Class does nothing more than loading view parts and using the variables given
 	*/
+	use Encode\Controller as Controller;
 
 	Class Load{
 		var $layout = "splash";

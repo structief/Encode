@@ -3,6 +3,8 @@
 	* Mail class, makes mailing easier!
 	* Uses mandrill app, settings are to be stored in all.config.inc.php
 	*/
+	use Encode\Controller as Controller;
+
 	Class Mail {
 		var $subject = "";
 		var $from = array();

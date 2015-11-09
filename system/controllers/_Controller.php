@@ -1,4 +1,5 @@
 <?php
+	namespace Encode;
 
 	Class Controller {
 		var $container;

@@ -2,6 +2,7 @@
 	/*
 	* Class is only called on first use on framework. Needs to set default environment variables and stuff, so do so ;)
 	*/
+	use Encode\Controller as Controller;
 
 	Class Initialize extends Controller{
 		var $configPath;

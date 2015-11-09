@@ -1,5 +1,6 @@
 <?php
 	//Error class, handles all kind of errors, such as 404
+	use Encode\Controller as Controller;
 
 	Class Error {
 		function __construct(){

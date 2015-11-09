@@ -1,4 +1,6 @@
 <?php
+	use Encode\Controller as Controller;
+	
 	Class Routing {
 
 	    public static function start_routing(){
@@ -73,8 +75,8 @@
 			    	$count++;
 			    }
 		    	//Be smart and get the correct controller for each page:
-		    	if(class_exists(ucfirst($class) . '_Controller')){
-		    		$class = ucfirst($class) . '_Controller';
+		    	$class = 'Controller\\' . ucfirst($class);
+		    	if(class_exists($class)){
 			    	$obj = new $class();
 			    	//And execute the correct function please:
 			    	if(method_exists($obj, $action)){
@@ -85,7 +87,7 @@
 				    	$c->error->trigger(404, "Function does not exist");
 			    	}
 			    }else{
-			    	$LANDING_CONTROLLER = LANDING_CONTROLLER;
+			    	$LANDING_CONTROLLER = "Controller\\" . LANDING_CONTROLLER;
 			    	$obj = new $LANDING_CONTROLLER();
 			    	$obj->index();
 			    }

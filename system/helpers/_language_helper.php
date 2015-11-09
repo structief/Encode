@@ -1,4 +1,6 @@
 <?php
+	use Encode\Controller as Controller;
+
 	function t($string, $values = array(), $changeCase = true){
 		/*
 		* Deze functie vertaalt volledige stukken tekst naar de gekozen taal (in session of cookie)
