@@ -3,6 +3,7 @@
 
 	    public static function start_routing(){
 	    	if(isset($_GET['file'])){
+	    		//The request is for an asset, so load it.
 	    		$content_types = [
 	    			"css" => "text/css",
 	    			"js" => "applicaton/x-javascript",
@@ -32,9 +33,10 @@
 	    		exit();
 	    	}
 	    	if(FW_CONFIGS){
+	    		//Environment is set, proceed to load
 		    	//Split the url to pieces
 		    	if(strpos($_SERVER['REQUEST_URI'], '?') !== false){
-		    		//Yeah..well, facebook tends to make a problem here, so we replace other parameters
+		    		//While authenticating with Facebook, the returned URI sets a second "?", so let's change them into '&'
 		    		$url = $_SERVER['REQUEST_URI'];
 		    		$sub_url = "&" . substr($url, strpos($url, '?')+1);
 		    		while(($startpos = strpos($sub_url,"&")) !== false){
@@ -82,27 +84,7 @@
 				    	$c = new Controller();
 				    	$c->error->trigger(404, "Function does not exist");
 			    	}
-			    }elseif($class == null){
-			    	//Landing page, please?
-			    	$LANDING_CONTROLLER = LANDING_CONTROLLER;
-			    	$obj = new $LANDING_CONTROLLER();
-			    	$obj->index();
 			    }else{
-			    	/* FOLLOWING CODE IS FOR CHECKING IF A COMPANY EXISTS. BUT WE NEED IT FOR ANGULAR. FIND A BETTER WAY LATER
-			    	//Let's do a db-check here, see if the company exists, otherwhise call the controller
-			    	$db = new DBConnection();
-			    	$db->select('*')->from("companies")->where("name = '" . str_replace("_", " ", $url[0]) . "'")->execute();
-			    	$result = $db->fetch_one();
-
-			    	if(count($result) == 0){
-				    	//Class nor company do exist, call 404
-				    	$c = new Controller();
-				    	$c->error->trigger(404, "Company does not exist");
-				    }else{
-				    	//Load the form called, found in $action
-				    	//LOAD THE DAMN FORM
-				    }
-				    */
 			    	$LANDING_CONTROLLER = LANDING_CONTROLLER;
 			    	$obj = new $LANDING_CONTROLLER();
 			    	$obj->index();
