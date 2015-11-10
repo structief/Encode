@@ -31,7 +31,7 @@
 						$dbConfigString = $dbConfig->read();
 
 						foreach($this->input->getPostVariable() as $field => $value){
-							if(in_array($field, array("productTitle", "baseUrl", "productVersion", "mandrillKey", "productStage", "enableLogin"))){
+							if(in_array($field, array("productTitle", "baseUrl", "productVersion", "mandrillKey", "productStage"))){
 								$configString = str_replace("**" . $field . "**", $value, $configString);
 							}elseif($field == "db_prefix" OR $field == "DB_PREFIX"){
 								$dbConfigString = str_replace("**" . $field . "**", "_" . $value, $dbConfigString);

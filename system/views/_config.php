@@ -38,13 +38,6 @@
 						  	<option value="deploy">Deployment</option>
 						  </select>
 					</div>
-					<div class="uk-width-1-3">
-						<label for="enableLogin" class="uk-form-label">Enable Login</label>
-						<select id="enableLogin" name="enableLogin" class="uk-form-controls">
-						  	<option value="true">Yes</option>
-						  	<option value="false">No</option>
-						</select>
-					</div>
 				</div>
 			</fieldset>
 			<fieldset style="margin-top:20px">

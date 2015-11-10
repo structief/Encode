@@ -12,10 +12,7 @@
 	define("STAGE", "**productStage**");
 	
 	//Define your landing controller
-	define("LANDING_CONTROLLER", "Index_Controller");
-
-	//Dis/Enable login
-	define('LOGIN', "**enableLogin**");
+	define("LANDING_CONTROLLER", "Index");
 
 	//Define mandrill api settings. Generate one @ www.mandrillapp.com to use the Mail class and all his advantages
 	define("MANDRILL_API_KEY", "**mandrillKey**");
