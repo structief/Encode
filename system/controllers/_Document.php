@@ -13,6 +13,25 @@
 				$this->doc = $url . '/' . $name;
 				$this->fHandler = fopen($this->doc, "r+");
 			}else{
+				if(!file_exists($url)){
+					//Remove the first '/' if the path starts with one
+					if(strpos($url, "/") == 0){
+						$url = substr($url, 1);
+					}
+					//Split foldername
+					$dir = explode("/", $url);$mapped_dir = "";
+					//Loop over folders
+					for($i = 0; $i < count($dir);$i++){
+						if($i > 0){
+							$mapped_dir .= "/";
+						}
+						$mapped_dir .= $dir[$i];
+						//If the directory does not exist yet, make a new one
+						if(!file_exists($mapped_dir)){
+							mkdir($mapped_dir);
+						}
+					}
+				}
 			   	$this->fHandler = fopen($url . '/' . $name, 'w+') or die("can't open file " . $url . "/" . $name);
 				$this->doc = $url . '/' . $name;
 				if($hidden){

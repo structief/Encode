@@ -13,13 +13,13 @@
 	set_include_path(get_include_path() . PATH_SEPARATOR . '.');
 
 	//Require all System classes, controllers and config files
-	$userFolders = ["application/controllers" => "php", "application/models" => "php", "application/helpers" => "php"];
+	$userFolders = ["application/controllers" => "php", "application/models" => "php"];
 	foreach($userFolders as $folder => $ext){
 		if(file_exists($folder)){
 			$GLOBALS["userFolders"][] = locateFiles($folder,$ext);
 		}
 	}
-	$systemFolders = array(locateFiles('system/initialize','php'), locateFiles('system/controllers','php'), locateFiles('system/helpers','php'), locateFiles('system/api', 'php'), locateFiles('application/config','php'));
+	$systemFolders = array(locateFiles('system/initialize','php'), locateFiles('system/controllers','php'), locateFiles('system/api', 'php'), locateFiles('application/config','php'));
 	
 	//Systemclasses, controllers, configfiles
 	foreach ($systemFolders as $systemFolder){
