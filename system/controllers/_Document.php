@@ -48,7 +48,9 @@
 		}
 
 		function __destruct(){
-			fclose($this->fHandler);
+			if(is_resource($this->fHandler)){
+				fclose($this->fHandler);
+			}
 		}
 		
 		public function write($string){

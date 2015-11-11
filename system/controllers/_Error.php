@@ -13,7 +13,6 @@
 					//Trigger 404 with message
 					//Determine the top line
 					$load = new Load();
-					$current_url = 'http://' . $_SERVER['HTTP_HOST'];$load->helper('_url');$url = getUrl();$current_url .= end($url);
 					$referer = $_SERVER['HTTP_REFERER'];
 					if($referer != null){
 						$referer = " from " . $referer;
@@ -27,9 +26,9 @@
 					}
 					break;
 				case '500':
-					//Database error
+					//Server error
 					$load = new Load();
-					$current_url = 'http://' . $_SERVER['HTTP_HOST'];$load->helper('_url');$url = getUrl();$current_url .= end($url);
+					$current_url = 'http://' . $_SERVER['HTTP_HOST'];
 					$referer = $_SERVER['HTTP_REFERER'];
 					if($referer != null){
 						$referer = " from " . $referer;
@@ -53,9 +52,14 @@
           				exit();
 					}
 					break;
+				case '515':
+					//Trigger a database sql error
+					Error::shutDownFunction(["message" => $errstring, "file" => $errfile, "line" => $errline]);
+					break;
 				default:
 					if($type == 'ERROR' OR $type == 'error'){
 						//Display the error
+						Error::shutDownFunction(["message" => $errstring, "file" => $errfile, "line" => $errline]);
 					}else{
 						//Add the warning/info to the list
 					}
@@ -165,12 +169,18 @@
 		    return true;
 		}
 
-		public static function shutDownFunction() {
+		public static function shutDownFunction($error = null) {
 			if(in_array(STAGE, array("test", "dev"))){
-			    $error = error_get_last();
+				if($error == null){
+				    $error = error_get_last();
+				}
 			   	if($error != null){
 			   		$file = file($error['file']);
-			   		$lines = array($file[$error['line']-2], $file[$error['line']-1], $file[$error['line']]);$minTabs = 100;
+			   		$lines = [];
+			   		for($i=4;$i>-3;$i--){
+			   			$lines[] = $file[$error["line"]-$i];
+			   		}
+			   		$minTabs = 100;
 			   		foreach($lines as $l){
 			   			$temp = substr_count($l, "\t");
 			   			if($temp < $minTabs && $temp != 0){
@@ -182,8 +192,11 @@
 			   				$l = preg_replace("/\t/", "", $l, 1);
 			   			}
 			   		}
-				    include(__DIR__ . '/../views/_fatalError.php');
+				    include(__DIR__ . '/../views/_fatalError.php');exit();
 				}
+			}else{
+				$load = new Load();
+				$load->view("_404", "splash");
 			}
 		}
 

@@ -285,6 +285,17 @@
 
       $this->results = $this->mysqli->query($query);
 
+      if($this->results === false){
+        //Catch the error
+        $error = $this->mysqli->error;
+        //Catch the executing file and line number
+        $bt =  debug_backtrace();
+        //Trigger the error;
+
+        $c = new \Encode\Controller();
+        $c->error->trigger(515, $error, $bt[0]['file'], $bt[0]['line']);
+      }
+
       //Automatic clearance of query
       $this->clear();
 
