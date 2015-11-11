@@ -54,7 +54,13 @@
 					break;
 				case '515':
 					//Trigger a database sql error
-					Error::shutDownFunction(["message" => $errstring, "file" => $errfile, "line" => $errline]);
+					if(in_array(STAGE, array("test", "dev"))){
+						Error::shutDownFunction(["message" => $errstring, "file" => $errfile, "line" => $errline]);
+					}else{
+						$load = new Load();
+						$load->view("_500", "splash");
+						exit();
+					}
 					break;
 				default:
 					if($type == 'ERROR' OR $type == 'error'){
@@ -194,10 +200,11 @@
 			   		}
 				    include(__DIR__ . '/../views/_fatalError.php');exit();
 				}
-			}else{
-				$load = new Load();
-				$load->view("_404", "splash");
 			}
+		}
+
+		public static function doNothing(){
+			return true;
 		}
 
 		/*

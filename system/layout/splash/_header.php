@@ -32,14 +32,10 @@
 	<link rel="icon" href="<?= $this->assets->get("image", 'favicon'); ?>">
 
 	<!--Basic stylesheets-->
-	<link href="<?= $this->assets->get("_css", "uikit.almost-flat.min"); ?>" rel="stylesheet">
+	<link href="system/assets/css/uikit.almost-flat.min.css" rel="stylesheet">
 
 	<!--Basic javascripts-->
-	<script type="text/javascript" src="<?= $this->assets->get("js", "jquery"); ?>"></script>
-
-	<!-- Add fancyBox main JS and CSS files -->
-	<script type="text/javascript" src="<?= $this->assets->get("_js", "jquery.fancybox") ?>"></script>
-	<link rel="stylesheet" type="text/css" href="<?= $this->assets->get("_css", "jquery.fancybox") ?>" media="screen" />
+	<script type="text/javascript" src="system/assets/js/jquery.js"></script>
 </head>
 <body>
 <div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom">

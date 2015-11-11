@@ -1,29 +1,28 @@
-<div class="row">
-	<div class="error-col col-md-4">
-		<i class="fa fa-check bg-green big-icon"></i>
-		<div class="big-circle">
-			<i class="fa fa-laptop inner-icon"></i>
-			<div class="inner-text">You</div>
-		</div>
-		<span class="status working">Working</span>
-		<span class="detail">Splendid! You and your browser seen to work fine.</span>
+<div class="uk-grid" style="margin-top:20%">
+	<div class="uk-width-1-1" style="text-align:center">
+		<h2>Oh snap.</h2>
 	</div>
-	<div class="error-col col-md-4">
-		<i class="fa fa-check bg-green big-icon"></i>
-		<div class="big-circle">
-			<i class="fa fa-cloud inner-icon"></i>
-			<div class="inner-text">Web</div>
+</div>
+<div class="uk-grid">
+	<div class="uk-width-1-3 uk-flex">
+		<div class="uk-panel uk-panel-box uk-alert-success">
+		    <div class="uk-panel-badge uk-badge uk-badge-success">WORKING</div>
+		    <h3 class="uk-panel-title">You</h3>
+		    Splendid! You and your browser seem to work fine.
 		</div>
-		<span class="status working">Working</span>
-		<span class="detail">Amazing, your device is connected to the World Wide Web.</span>
 	</div>
-	<div class="error-col col-md-4">
-		<i class="fa fa-times bg-red big-icon"></i>
-		<div class="big-circle">
-			<i class="fa fa-database inner-icon"></i>
-			<div class="inner-text">Database</div>
+	<div class="uk-width-1-3 uk-flex">
+		<div class="uk-panel uk-panel-box uk-alert-success">
+		    <div class="uk-panel-badge uk-badge uk-badge-success">WORKING</div>
+		    <h3 class="uk-panel-title">Web</h3>
+		    Amazing, your device is connected to the World Wide Web.
 		</div>
-		<span class="status not-working">Not Working</span>
-		<span class="detail">Ah. The database is not responding, so busy or down. Perhaps <a href="mailto:info@beformed.be?subject=503%20report">report this</a> to the administrators?</span>
+	</div>
+	<div class="uk-width-1-3 uk-flex">
+		<div class="uk-panel uk-panel-box uk-alert-danger">
+		    <div class="uk-panel-badge uk-badge uk-badge-danger">NOT WORKING</div>
+		    <h3 class="uk-panel-title">Database</h3>
+		    Ah. The database is not responding, so busy or down. Perhaps <a href="mailto:info@beformed.be?subject=503%20report">report this</a> to the administrators?
+		</div>
 	</div>
 </div>
