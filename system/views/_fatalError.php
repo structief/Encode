@@ -10,7 +10,13 @@
 	<b style="font-size: 240px;position: absolute;margin-left: -140px;margin-top: 100px;">!</b>
 	<p style="margin-top:-20px;color:black;font-size:20px;padding:10px">
 	<h2>
-		<? echo $error['message']; ?>
+		<?php
+			if(is_array($error['message'])){
+				echo $error["message"]["error"] . "<small style='display:block;font-style:italic;font-size:10pt;color:#999'>Query: \"" . strtolower($error["message"]["query"]) . "\"</small>";
+			}else{
+				echo $error['message']; 
+			}
+		?>
 	</h2>
 	<p>
 		<pre style="background-color:#EBEBEB;border:1px solid #ddd;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;word-wrap:break-word">

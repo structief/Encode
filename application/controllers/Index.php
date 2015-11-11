@@ -16,8 +16,7 @@
 			//This outputs "But" since it is called from namespace Model, (it is stored in the folder "models")
 			$model = new \Model\Example();
 			$butMessage = $model->things();
-
-
+			
 			//Output the view
 			$this->load->view('index', ["title" => $title, "welcomeMessage" => $welcomeMessage, "butMessage" => $butMessage]);
 		}
