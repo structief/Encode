@@ -1,10 +1,8 @@
 <?php
 	/*
 	* Mail class, makes mailing easier!
-	* Uses mandrill app, settings are to be stored in all.config.inc.php
+	* Uses SendGrid app, settings are to be stored in all.config.inc.php
 	*/
-	use Encode\Controller as Controller;
-
 	Class Mail {
 		var $subject = "";
 		var $from = array();
@@ -12,16 +10,15 @@
 		var $recipients = array();
 		var $HTMLBody = "";
 		var $plainBody = "";
-		var $importance = false;
-		var $mandrill;
+		var $sendgrid;
 		var $isTemplate = false;
 		var $availableTemplates = array();
 		var $archive = true;
 
 		function __construct($archive = true){
-			$this->mandrill = new Mandrill(MANDRILL_API_KEY);
+			$this->sendgrid = new SendGrid(SENDGRID_API_KEY);
 
-			$this->from = array("name"=>TITLE . " system", "email"=>"bot@" . str_replace(" ", "_", TITLE) . ".com");
+			$this->from = array("name"=>TITLE . " bot", "email"=>TITLE . "@" . TITLE . ".be");
 			$this->subject = "Mail from " . TITLE;
 
 			if ($handle = opendir('system/layout/mail')) {
@@ -117,33 +114,17 @@
 			return $this;
 		}
 
-		public function setImportance($flag){
-			if($flag != true AND $flag != false){
-				trigger_error("Importance should be true or false", E_USER_ERROR);
-			}else{
-				$this->importance = $flag;
-			}
-
-			//Return instance for chaining
-			return $this;
-		}
-
 		public function setTemplate($template){
 			if(in_array(strtolower($template), $this->availableTemplates)){
 				$this->isTemplate = true;
 				$this->HTMLBody = file_get_contents("system/layout/mail/" . strtolower($template) . ".html");
 
-				//Update the ARCHIVE, LOGO, FACEBOOK and TWITTER-link immediately
-				if(!$this->archive){$this->addContent("ARCHIVE_LINK", ARCHIVE_LINK);}
-				$c = new Controller();$c->load->helper('_language');
-				$this->addContent("FACEBOOK", FACEBOOK_LINK)
-					->addContent("TWITTER", TWITTER_LINK)
-					->addContent("EMAIL_ADDRESS_TEXT", t(""))
-					->addContent("OPEN_IN_BROWSER", t("Lees deze e-mail in je browser"))
-					->addContent("LOGO_LINK", LINK_URL . $c->assets->get('images/landing_images', 'logo'))
-					->addContent("PROFILE_SETTINGS_URL", LINK_URL . "/settings")
-					->addContent("PROFILE_SETTINGS_TEXT", t("Wijzig profielinstellingen"))
-					->addContent("EMAIL_ADDRESS_TEXT", t("Ons e-mailadres is") . ": ");
+				//Update the LOGO, FACEBOOK and TWITTER-link immediately
+				$this->addContent("LOGO_LINK", LOGO_LINK);
+				$this->addContent("FACEBOOK_LINK", FACEBOOK_LINK);
+				$this->addContent("TWITTER_LINK", TWITTER_LINK);
+				$this->addContent("INSTAGRAM_LINK", INSTAGRAM_LINK);
+				$this->addContent("BASE_URL", LINK_BASE);
 			}else{
 				$this->isTemplate = false;
 				trigger_error("The selected template does not exist", E_USER_WARNING);
@@ -167,9 +148,9 @@
 		public function send(){
 			//ARCHIVE THIS EMAIL
 			if($this->archive){
-				$rand = substr(md5(rand(0, 100) . date("dmyHis")), 0, 10);
+				$rand = substr(md5(rand(0, 100) . date("dmyHis")), -10);
 				//Set url in HTML body
-				$this->HTMLBody = str_replace("[[ARCHIVE_LINK]]", LINK_URL . "application/logs/" . $rand . ".html", $this->HTMLBody);
+				$this->HTMLBody = str_replace("[[ARCHIVE]]", LINK_BASE . "archive/" . $rand . ".html", $this->HTMLBody);
 			}
 
 			//Remove all variables ([[var]]) in template, if necessairy
@@ -181,7 +162,7 @@
 
 			//Create the archived document
 			if($this->archive){
-				$doc = new Document("application/logs", $rand . '.html');
+				$doc = new Document("archive/", $rand . '.html');
 				if(STAGE == "test"){
 					$string = "From: " . $this->from['name'] . ' (' .$this->from['email'] . ')<br/>To: ' . print_r($this->recipients, true) . "<br/>Subject: " . $this->subject . '<br/>';
 				}else{
@@ -191,44 +172,55 @@
 				$doc->write($string);
 			}
 
-			$message = array(
-		        'html' => $this->HTMLBody,
-		        'text' => $this->plainBody,
-		        'subject' => $this->subject ? $this->subject : '',
-		        'from_email' => $this->from['email'],
-		        'from_name' => $this->from['name'],
-		        'to' => $this->recipients,
-		        'headers' => $this->headers,
-		        'important' => $this->importance,
-		    );
-		    $async = false;
+		    $email = new SendGrid\Email();
+		    $email->setFrom($this->from["email"])
+		    		->setFromName($this->from["name"])
+		    		->setSubject($this->subject)
+		    		->setText($this->plainBody)
+		    		->setHTML($this->HTMLBody)
+		    		->setHeaders($this->headers);
+		    //Add recipients
+		    foreach($this->recipients as $recipient){
+		    	switch($recipient["type"]){
+		    		case "to":
+		    		default:
+		    			$email->addTo($recipient['email'], $recipient["name"]);
+		    			break;
+		    		case "cc":
+		    			$email->addCc($recipient['email'], $recipient["name"]);
+		    			break;
+		    		case "bcc":
+		    			$email->addBcc($recipient['email'], $recipient["name"]);
+		    			break;
+		    	}	
+		    }
 
 			switch(STAGE){
 				case 'deploy':
 				case 'test':
+					$result = [];
 					try {
-					    $results = $this->mandrill->messages->send($message, $async);
-					} catch(Mandrill_Error $e) {
-						trigger_error("A mail error occured: " . get_class($e) . ' - ' . $e->getMessage(), E_USER_ERROR);
+					    $result = $this->sendgrid->send($email);
+					} catch(\SendGrid\Exception $e) {
+					    foreach($e->getErrors() as $er) {
+					        trigger_error("A mail error occured: " . $e->getCode() . " - " . $er, E_USER_ERROR);
+					    }
 					}
 
 					$sent = array();$rejected = array();
-					foreach($results as $result){
-						if($result['status'] == "sent"){
-							array_push($sent, $result['email']);
-						}else{
-							array_push($rejected, array($result['email'] => $result['reject_reason']));
-						}
+					if($result->code == 200){
+						array_push($sent, true);
+					}else{
+						array_push($rejected, $result->body->message);
 					}
 
 					return array("sent" => $sent, "rejected" => $rejected);
-					break;
+				break;
 				case 'dev':
 				default:
 					//Display email in browser, don't send
-					print_r($message);
-					return array("sent" => $this->recipients);
-					break;
+					print_r($email);
+				break;
 			}
 		}
 
