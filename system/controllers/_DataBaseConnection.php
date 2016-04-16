@@ -12,7 +12,7 @@
     var $orderByStatement = null;
     var $groupByStatement = null;
     var $limitStatement = null;
-    var $fullQuery = null;
+    var $query = null;
     var $type = "select";
     var $debug = false;
 
@@ -40,12 +40,7 @@
     }
 
     public function query($fullQuery){
-      if($this->fullQuery == ""){
-        $this->fullQuery =  $fullQuery;
-      }else{
-        $this->fullQuery = $fullQuery;
-      }
-
+      $this->query =  $fullQuery;
       //Return instance for chaining
       return $this;
     }
@@ -272,53 +267,34 @@
     }
 
 
-    public function executeFullQuery(){
-      $query = $this->fullQuery;
-      
-      $this->results = $this->mysqli->query($query);
-
-      if($this->results === false){
-        //Catch the error
-        $error = $this->mysqli->error;
-        //Catch the executing file and line number
-        $bt =  debug_backtrace();
-        //Trigger the error;
-
-        $c = new \Encode\Controller();
-        $c->error->trigger(515, ["error" => $error, "query" => $query], $bt[0]['file'], $bt[0]['line']);
-      }
-
-      //Automatic clearance of query
-      $this->clear();
-
-      //Return instance for chaining
-      return $this;
-    }
-
     public function execute(){
-      $statements = array("selectStatement", "updateStatement", "insertStatement", "deleteStatement");
-      $extraClauses = array("fromStatement", "joinStatement", "whereStatement", "havingStatement", "groupByStatement", "orderByStatement", "limitStatement");
-      $query = "";$break = false;
-      foreach($statements as $statement){
-        if(isset($this->$statement) AND $this->$statement != null){
-          $query .= $this->$statement;
-          if($statement == "insertStatement"){
-            $break = true;
+      if(!$this->query){
+        $statements = array("selectStatement", "updateStatement", "insertStatement", "deleteStatement");
+        $extraClauses = array("fromStatement", "joinStatement", "whereStatement", "havingStatement", "groupByStatement", "orderByStatement", "limitStatement");
+        $this->query = "";$break = false;
+        foreach($statements as $statement){
+          if(isset($this->$statement) AND $this->$statement != null){
+            $this->query .= $this->$statement;
+            if($statement == "insertStatement"){
+              $break = true;
+            }
+            break;
           }
-          break;
         }
-      }
-      if($break == false){
-        foreach($extraClauses as $extra){
-          $query .= $this->$extra;
+        if($break == false){
+          foreach($extraClauses as $extra){
+            $this->query .= $this->$extra;
+          }
         }
       }
 
       if($this->debug){
-        echo $query;
+        echo $this->query;
       }
 
-      $this->results = $this->mysqli->query($query);
+
+
+      $this->results = $this->mysqli->query($this->query);
 
       if($this->results === false){
         //Catch the error
@@ -328,7 +304,7 @@
         //Trigger the error;
 
         $c = new \Encode\Controller();
-        $c->error->trigger(515, ["error" => $error, "query" => $query], $bt[0]['file'], $bt[0]['line']);
+        $c->error->trigger(515, ["error" => $error, "query" => $this->query], $bt[0]['file'], $bt[0]['line']);
       }
 
       //Automatic clearance of query
@@ -350,6 +326,7 @@
       $this->orderByStatement = null;
       $this->groupByStatement = null;
       $this->limitStatement = null;
+      $this->query = null;
       $this->result = null;
 
       //Return instance for chaining
@@ -402,7 +379,7 @@
       return $this->mysqli->affected_rows;
     }
 
-    public function insert_id(){
+    public function getLastInsertedId(){
       return $this->mysqli->insert_id;
     }
 
