@@ -14,7 +14,6 @@
 		public function layout($layout){
 			$this->layout = $layout;
 			$c = new Controller();
-			$c->assets->render($this->layout);
 		}
 
 		public function view($viewPath, $variables = array()){	

@@ -22,7 +22,10 @@ Leave the system-folder alone, he doesn't like to get bothered.
 
 Great! You did it!
 Now for the settings you just entered, they can easily be adjusted in the application/config folder, anytime!
-If you ignored the [Mandrill](www.mandrilapp.com "Mandrill") API key, no worries, you can still enter him in those files later on.
+If you ignored the [SendGrid](www.sendgrid.com "Sendgrid") API key, no worries, you can still enter him in those files later on.
+
+#####Gulp
+Gulp is included, as is composer, and options for bower. If you'd like to user gulp for minifying, use the gulpfile.js in the root directory.
 
 #### THE MAGIC THIS
 Every world has his own definition of magic.

@@ -8,9 +8,8 @@
     </article>
   </div>
 </div>
-  <!-- inject:js --> <script type='text/javascript' src='/application/assets/js/jquery.min.js'></script>
-<script type='text/javascript' src='/application/assets/js/minified/1446476307_scripts.min.js'></script>
-<script type='text/javascript' src='/application/assets/js/uikit.min.js'></script>
- <!-- end:js -->
+  <!-- inject:js -->
+  <script src="/application/assets/js/minified/Encode_scripts.js?v=5b27a8dd68d32e4c069fff3bdc0e5bae"></script>
+  <!-- endinject -->
 </body>
 </html>
