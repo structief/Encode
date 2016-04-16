@@ -43,9 +43,9 @@
 			<fieldset style="margin-top:20px">
 				<legend>Mail Settings</legend>
 				<div class="uk-form-row">
-					<label for="mandrillKey" class="uk-form-label">Mandrill Key</label>
-					<input class="uk-form-controls" id="mandrillKey" name="mandrillKey" type="text" placeholder="Mandrill API Key" value="<? echo $post->mandrillKey; ?>"><br/><br/>
-					<span class="uk-form-help-block"><span class="uk-badge">NOTE</span><span class="uk-text-small"><?php echo FRAMEWORK; ?> works with <a href="http://www.mandrillapp.com">Mandrillapp.com</a>. If you want this to work, generate an API key on their website, and fill it in here.</span></span>
+					<label for="sendgridKey" class="uk-form-label">SendGrid Key</label>
+					<input class="uk-form-controls" id="sendgridKey" name="sendgridKey" type="text" placeholder="Sendgrid API Key" value="<? echo $post->sendgridKey; ?>"><br/><br/>
+					<span class="uk-form-help-block"><span class="uk-badge">NOTE</span><span class="uk-text-small"><?php echo FRAMEWORK; ?> works with <a href="http://www.sendgrid.com">sendgrid.com</a>. If you want this to work, generate an API key on their website, and fill it in here.</span></span>
 				</div>
 			</fieldset>
 			<fieldset style="margin-top:20px">

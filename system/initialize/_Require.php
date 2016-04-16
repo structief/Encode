@@ -19,7 +19,7 @@
 			$GLOBALS["userFolders"][] = locateFiles($folder,$ext);
 		}
 	}
-	$systemFolders = array(locateFiles('system/initialize','php'), locateFiles('system/controllers','php'), locateFiles('system/api', 'php'), locateFiles('application/config','php'));
+	$systemFolders = array(locateFiles('system/initialize','php'), locateFiles('system/controllers','php'), locateFiles('system/api/Minify', 'php'), locateFiles('system/api/Uglify', 'php'), ['system/api/vendor/autoload.php'], locateFiles('application/config','php'));
 	
 	//Systemclasses, controllers, configfiles
 	foreach ($systemFolders as $systemFolder){
@@ -88,12 +88,14 @@
 		$results = array();
 		$dirs = array($path);
 		while(count($dirs) > 0){
-			$temp = scandir($dirs[0]);
-			foreach($temp as $t){
-				if(strpos($t, ".") === false){
-					$dirs[] = $dirs[0] . '/' . $t;
-				}elseif(strpos($t, "." . $extension) !== false){
-					$results[] = $dirs[0] . '/' . $t;
+			if(is_dir($dirs[0])){
+				$temp = scandir($dirs[0]);
+				foreach($temp as $t){
+					if(strpos($t, ".") === false){
+						$dirs[] = $dirs[0] . '/' . $t;
+					}elseif(strpos($t, "." . $extension) !== false){
+						$results[] = $dirs[0] . '/' . $t;
+					}
 				}
 			}
 			unset($dirs[0]);
