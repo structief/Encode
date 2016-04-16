@@ -35,8 +35,9 @@
 	<link rel="icon" href="<? echo $this->assets->get('images', 'favicon'); ?>">
 
 	<!--Basic stylesheets-->
-	<!-- inject:css --> <link rel='stylesheet' href='/application/assets/css/minified/1447106664_styles.min.css'>
- <!-- end:css -->
+	<!-- inject:css --> 
+    <link rel="stylesheet" href="/application/assets/css/minified/Encode_stylesheets.css?v=5b27a8dd68d32e4c069fff3bdc0e5bae"> 
+    <!-- endinject -->
 </head>
 <body>
 <nav class="uk-navbar">

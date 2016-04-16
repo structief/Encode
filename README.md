@@ -22,7 +22,12 @@ Leave the system-folder alone, he doesn't like to get bothered.
 
 Great! You did it!
 Now for the settings you just entered, they can easily be adjusted in the application/config folder, anytime!
-If you ignored the [Mandrill](www.mandrilapp.com "Mandrill") API key, no worries, you can still enter him in those files later on.
+If you ignored the [SendGrid](www.sendgrid.com "Sendgrid") API key, no worries, you can still enter him in those files later on.
+
+#####Gulp, Node, Composer, Bower
+- Gulp is included, as is composer, and options for bower. If you'd like to user gulp for minifying, use the gulpfile.js in the root directory, but make sure to run `npm install` first!
+- Bower is optional, but can easily be installed with the usual commands
+- Composer is installed in the /system/api directory, should there be a new version of SendGrid, or other systems you use, use that one
 
 #### THE MAGIC THIS
 Every world has his own definition of magic.
