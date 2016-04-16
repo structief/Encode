@@ -83,7 +83,12 @@
 			}
 		}
 		public function hasFiles(){
-			if(isset($_FILES) && count($_FILES)>0){
+			
+			$files = json_decode(file_get_contents('php://input'), true);
+			if($files == NULL){
+				$files = $_FILES;
+			}
+			if(isset($files) && count($files)>0){
 				return true;
 			}else{
 				return false;
