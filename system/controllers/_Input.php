@@ -38,10 +38,14 @@
 			}
 		}
 		public function getFileVariable($var = null){
+			$files = json_decode(file_get_contents('php://input'), true);
+			if($files == NULL){
+				$files = $_FILES;
+			}
 			if($var == null){
-				return $_FILES;
-			}elseif(array_key_exists($var, $_FILES)){
-				return $_FILES[$var];
+				return $files;
+			}elseif(array_key_exists($var, $files)){
+				return $files[$var];
 			}else{
 				return false;
 			}
