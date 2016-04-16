@@ -35,8 +35,7 @@
 	<link rel="icon" href="<? echo $this->assets->get('images', 'favicon'); ?>">
 
 	<!--Basic stylesheets-->
-	<!-- inject:css --> <link rel='stylesheet' href='/application/assets/css/ionicons.css'>
-<link rel='stylesheet' href='/application/assets/css/uikit.css'>
+	<!-- inject:css --> <link rel='stylesheet' href='/application/assets/css/minified/1447106664_styles.min.css'>
  <!-- end:css -->
 </head>
 <body>

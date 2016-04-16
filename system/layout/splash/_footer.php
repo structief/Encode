@@ -1,7 +1,3 @@
-</div>
-<?php
-	//Footer
-	echo '<!--' . session_id() . '-->';
-?>
-</body>
+		</div>
+	</body>
 </html>

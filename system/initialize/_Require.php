@@ -42,32 +42,35 @@
 		}
 	}
 
-
 	//Autoload classes that have not been defined yet
 	spl_autoload_register(function ($class) {
 		//Require all classes
 		//Loop through user controllers / models / modules to find the right file
 		$trigger = false;
 		foreach($GLOBALS["userFolders"] as $folder){
-			foreach($folder as $filename){
-				$file = substr($filename, strrpos($filename, "/")+1);
-				//Check if filename maps with controller-name
-				$file = substr($file, 0, strrpos($file, ".php"));
-				$stripped_class = substr($class, strrpos($class, "\\")+1);
-				if($file == $stripped_class){
-				    require_once $filename;
+			if(count($folder) > 0){
+				foreach($folder as $filename){
+					$file = substr($filename, strrpos($filename, "/")+1);
+					//Check if filename maps with controller-name
+					$file = substr($file, 0, strrpos($file, ".php"));
+					$stripped_class = substr($class, strrpos($class, "\\")+1);
+					if($file == $stripped_class){
+					    require_once $filename;
+					}
 				}
 			}
 		}
 		//If we haven't found it by now, it's gotta be a module
 		foreach($GLOBALS["modules"] as $module){
-			foreach($module["paths"] as $path){
-				//Check filename for controller name and require_once it
-				$file = substr($path, strrpos($path, "/"));
-				//Check if filename maps with controller-name
-				$stripped_class = substr($class, strrpos($class, "\\")+1);
-				if($file == $stripped_class){
-				    require_once $path;
+			if(count($module) > 0){
+				foreach($module["paths"] as $path){
+					//Check filename for controller name and require_once it
+					$file = substr($path, strrpos($path, "/"));
+					//Check if filename maps with controller-name
+					$stripped_class = substr($class, strrpos($class, "\\")+1);
+					if($file == $stripped_class){
+					    require_once $path;
+					}
 				}
 			}
 		}
