@@ -12,6 +12,7 @@
     var $orderByStatement = null;
     var $groupByStatement = null;
     var $limitStatement = null;
+    var $fullQuery = null;
     var $type = "select";
     var $debug = false;
 
@@ -32,6 +33,17 @@
         $this->selectStatement = "SELECT " . $selectStatement;
       }else{
         $this->selectStatement .= "," . $selectStatement;
+      }
+
+      //Return instance for chaining
+      return $this;
+    }
+
+    public function query($fullQuery){
+      if($this->fullQuery == ""){
+        $this->fullQuery =  $fullQuery;
+      }else{
+        $this->fullQuery = $fullQuery;
       }
 
       //Return instance for chaining
@@ -260,6 +272,29 @@
     }
 
 
+    public function executeFullQuery(){
+      $query = $this->fullQuery;
+      
+      $this->results = $this->mysqli->query($query);
+
+      if($this->results === false){
+        //Catch the error
+        $error = $this->mysqli->error;
+        //Catch the executing file and line number
+        $bt =  debug_backtrace();
+        //Trigger the error;
+
+        $c = new \Encode\Controller();
+        $c->error->trigger(515, ["error" => $error, "query" => $query], $bt[0]['file'], $bt[0]['line']);
+      }
+
+      //Automatic clearance of query
+      $this->clear();
+
+      //Return instance for chaining
+      return $this;
+    }
+
     public function execute(){
       $statements = array("selectStatement", "updateStatement", "insertStatement", "deleteStatement");
       $extraClauses = array("fromStatement", "joinStatement", "whereStatement", "havingStatement", "groupByStatement", "orderByStatement", "limitStatement");
@@ -365,6 +400,10 @@
 
     public function affected_rows(){
       return $this->mysqli->affected_rows;
+    }
+
+    public function insert_id(){
+      return $this->mysqli->insert_id;
     }
 
     //Private functions, keep your hands off 'em, needed for db-connection and stuff.
