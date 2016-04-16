@@ -32,10 +32,10 @@
 	<link rel="icon" href="<?= $this->assets->get("image", 'favicon'); ?>">
 
 	<!--Basic stylesheets-->
-	<link href="system/assets/css/uikit.almost-flat.min.css" rel="stylesheet">
+	<link href="/system/assets/css/uikit.almost-flat.min.css" rel="stylesheet">
 
 	<!--Basic javascripts-->
-	<script type="text/javascript" src="system/assets/js/jquery.js"></script>
+	<script type="text/javascript" src="/system/assets/js/jquery.js"></script>
 </head>
 <body>
 <div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom">
