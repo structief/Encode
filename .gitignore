@@ -1,8 +1,16 @@
-# Logs and databases #
+# Logs #
 ######################
-*.log.php
-*.sql
-*.sqlite
+application/logs
+system/logs
+
+# Configs #
+######################
+application/config
+system/initialize/_all_config.inc.php
+
+# Minified files #
+######################
+application/assets/**/minified
 
 # OS generated files #
 ######################
