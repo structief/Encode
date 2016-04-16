@@ -6,10 +6,12 @@
 	Class Input {
 		var $getArray;
 		var $postArray;
+		var $filesArray;
 
 		function __construct(){
 			$this->getArray = array();
 			$this->postArray = array();
+			$this->filesArray = array();
 		}
 
 		public function getGetVariable($var = null){
@@ -31,6 +33,15 @@
 				return $post;
 			}elseif(array_key_exists($var, $post)){
 				return $post[$var];
+			}else{
+				return false;
+			}
+		}
+		public function getFileVariable($var = null){
+			if($var == null){
+				return $_FILES;
+			}elseif(array_key_exists($var, $_FILES)){
+				return $_FILES[$var];
 			}else{
 				return false;
 			}
@@ -66,6 +77,13 @@
 				$post = $_POST;
 			}
 			if(isset($post) && count($post)>0){
+				return true;
+			}else{
+				return false;
+			}
+		}
+		public function hasFiles(){
+			if(isset($_FILES) && count($_FILES)>0){
 				return true;
 			}else{
 				return false;
