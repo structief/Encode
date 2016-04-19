@@ -59,7 +59,7 @@ When a user accesses your webpage, the following steps occur:
    * When all the data is collected, the controller will load a view, which contains plain HTML (and some basic logic-statements, like if or switch cases). The view-call can be loaded with some variables as well, so you can access them in the view itself, and output them wherever you want.
 
 #### MODULES USAGE
-Since version `2.3`, it is possible to write custom, reusable modules to expand Encode.
+Since version `1.1`, it is possible to write custom, reusable modules to expand Encode.
 The structure of these modules are very much like the basic application-folder. They both have assets, controllers, models, views, config files, and others.
 If you are going to write or edit modules, best have a look at these guidelines:
 
